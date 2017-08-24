@@ -6,6 +6,9 @@ module.exports = function(http){
         socket.on('disconnect', function(){
             console.log('user disconnected');
         });
+        socket.on('canvas-update', function(data){
+            io.emit('canvas-update', data);
+        })
     });
 
 };

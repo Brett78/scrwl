@@ -28,6 +28,10 @@ export class Canvas
         this.context.fillStyle = prevStyle;
     }
 
+    public get pixelData(): any {
+        return this.context.getImageData(0, 0, this.canvas.width, this.canvas.height).data;
+    }
+
     private appendCanvas(): void {
         if(!document.body){
             document.appendChild(document.createElement('body'));

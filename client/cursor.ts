@@ -5,8 +5,9 @@ export class Cursor
     private isMouseDown: boolean = false;
     private lastX: number;
     private lastY: number;
+    private moves: Array<any> = [];
 
-    constructor(private canvas: Canvas){
+    constructor(private canvas: Canvas, private socket: any){
         this.canvas.addEventListener('mousemove', this.draw());
         this.canvas.addEventListener('mousedown', this.mouseDown());
         this.canvas.addEventListener('mouseup', this.mouseUp());
@@ -21,6 +22,7 @@ export class Cursor
                 cursor.canvas.line(startX, startY, event.layerX, event.layerY);
                 cursor.lastX = event.layerX;
                 cursor.lastY = event.layerY;
+                cursor.moves.push({x: event.layerX, y: event.layerY});
             }
         }
     } 
@@ -38,6 +40,8 @@ export class Cursor
             cursor.lastX = null;
             cursor.lastY = null;
             cursor.isMouseDown = false;
+            cursor.socket.emit('canvas-update', cursor.moves);
+            cursor.moves = [];
         }
     }
 }
